@@ -9,7 +9,7 @@ export default function App(props) {
   return (
     <>
       <Head>
-        <title>EasyCrypt</title>
+        <title>CryptEasy</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
 
