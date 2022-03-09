@@ -1,4 +1,4 @@
-import { Accordion, Button, List, Center, Container, Title, Header, Text, Navbar, AppShell, Grid, Group, Anchor, Image, Space, Card, Pagination, Paper, Dialog, TextInput, Textarea, Notification, Alert } from '@mantine/core'
+import { Accordion, Button, List, Center, Container, Title, Header, Text, Navbar, AppShell, Grid, Group, Anchor, Image, Space, Card, Pagination, Paper, Dialog, TextInput, Textarea, Notification, Alert, SimpleGrid } from '@mantine/core'
 import BurgerBar from '../components/drawerTemplate'
 import { FcAbout } from 'react-icons/fc';
 import { SiAboutdotme } from 'react-icons/si';
@@ -33,11 +33,11 @@ export default function Home() {
 
   return (
     <>
-    <div style={{padding: "10px"}}>
+    <div style={{}}>
     <AppShell
         padding="xl"
         header={
-        <Group direction='row' align="left" position="apart">
+        <Group direction='row' align="left" position="apart" style={{maxWidth: "99vw"}}>
           <div style={{display: "flex", alignItems: "center"}}>
             <BurgerBar size="xl" profile title={<Title style={{fontFamily: "raleway"}}>About Me</Title>}>
               <Grid cols={12} align="center">
@@ -55,59 +55,53 @@ export default function Home() {
                 <Text size="xl" style={{fontFamily: "satisfy", fontWeight: "500", fontSize: "23px"}}> I am Warun Panpaliya. <br/>A passionate and enthusiastic developer. I play the guitar and watch a lot of Anime!</Text>
                 </Grid.Col>
               </Grid>
-              <Container padding="15%">
               <Space h="xl" />
-              <Container>
-                <Title style={{fontFamily: "satisfy", fontSize: "50px"}}>Check me out!</Title>
-              </Container>
-              <Space h="lg" />
+              <Space h="xl" />
+              <SimpleGrid cols={2}>
               <Group direction='column'>
+                <Title style={{fontFamily: "satisfy", fontSize: "35px"}}>Check me out!</Title>
                 <Anchor href="https://github.com/warun1801" target="_blank"  style={{textDecoration: "none", color: "#c1c2c5"}}>
                   <Group>
                     <FaGithub size="28px" />
-                    <Text size="xl" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> warun1801</Text>
+                    <Text size="md" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> warun1801</Text>
                   </Group>
                 </Anchor>
                 <Anchor href="https://warunpanpaliya.vercel.app" target="_blank"  style={{textDecoration: "none", color: "#ef5f67"}}>
                   <Group>
                     <RiProfileFill size="28px" />
-                    <Text size="xl" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> Portfolio</Text>
+                    <Text size="md" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> Portfolio</Text>
                   </Group>
                 </Anchor>
                 <Anchor href="https://instagram.com/warun_panpaliya" target="_blank"  style={{textDecoration: "none"}} variant="gradient" gradient={{ from: 'grape', to: 'pink', deg: 35 }}>
                   <Group>
                     <FaInstagram size="28px" color="#c44bce"/>
-                    <Text size="xl" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> warun_panpaliya</Text>
+                    <Text size="md" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> warun_panpaliya</Text>
                   </Group>
                 </Anchor>  
               </Group>
-              <Space h="xl" />
-              <Container>
-                <Title style={{fontFamily: "satisfy", fontSize: "50px"}}>Hit me up!</Title>
-              </Container>
-              <Space h="lg" />
               <Group direction='column'>
+                <Title style={{fontFamily: "satisfy", fontSize: "35px"}}>Hit me up!</Title>
                 <Anchor href="mailto:warun1801@gmail.com" target="_blank"  style={{textDecoration: "none", color: "#cd3c30"}}>
                   <Group>
                     <SiGmail size="28px" />
-                    <Text size="xl" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> @warun1801</Text>
+                    <Text size="md" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> @warun1801</Text>
                   </Group>
                 </Anchor>
                 <Anchor href="https://www.linkedin.com/in/warun-panpaliya-568b77187" target="_blank"  style={{textDecoration: "none", color: "#1c7ed6"}}>
                   <Group>
                     <FaLinkedin size="28px" />
-                    <Text size="xl" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> Warun Panpaliya</Text>
+                    <Text size="md" weight={500} style={{fontFamily: "raleway", fontWeight: "bold"}}> Warun Panpaliya</Text>
                   </Group>
                 </Anchor>
               </Group>
-            </Container>
+            </SimpleGrid>
             </BurgerBar>
 
             <FcAbout size="28px"/>
             <SiAboutdotme size="28px"/>
           </div>
           <div style={{display: "flex", alignItems: "center"}}>
-            <Group position="center" style={{paddingRight: "5px"}}>
+            <Group position="center" style={{paddingRight: "1px"}}>
               <Button variant='outline' onClick={() => setOpened((o) => !o)} compact radius={10}><RiFeedbackFill />&nbsp;Feedback!</Button>
             </Group>
 
@@ -132,7 +126,7 @@ export default function Home() {
                 <Button onClick={handleFeedback}>Submit</Button>
               </Group>
             </Dialog>
-            <Button compact variant='outline' radius={10}><FaStar/>&nbsp;this project!</Button>
+            <Button compact variant='outline' radius={10} component="a" href="https://github.com/warun1801/crypteasy" target="_blank"><FaStar/>&nbsp;project!</Button>
             { showAlert &&
               <Alert style={{position: "fixed", zIndex: 10, right: 10, top: 60, padding: "10px" }} radius="md" icon={<CheckIcon size={16} />} title="Thank you!" withCloseButton onClose={() => setShowAlert(false)}>
                 Your feedback has been recorded
