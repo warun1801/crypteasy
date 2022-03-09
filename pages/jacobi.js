@@ -111,19 +111,26 @@ export default function Jacobi() {
         setLoading(true);
         setShowResult(false);
         const url = `https://crypto-helper-mocha.vercel.app/jacobi?a=${a}&n=${n}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        setResult(JSON.parse(data));
-        setLoading(false);
-        setShowResult(true);
+        
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            setResult(JSON.parse(data));
+            setLoading(false);
+            setShowResult(true);
+        } catch (error) {
+            setLoading(false);
+            alert("An error occured. Please check the numbers");
+        }
     }
 
     return (
-        <Container>
+        <Container style={{maxWidth: "100vw"}}>
             <AppShell
                 padding="xl"
                 header={<HeaderTemplate title="Jacobi / Legendre Symbol" code={code} codeTitle="Jacobi and Legendre" description="Find Jacobi/ Legendre symbol for the input (a|n)" />}
             >
+            <Container alignItems="center">
             <SimpleGrid cols={2}>
                 <InputWrapper
                     label={<Title order={4}>a:</Title>}
@@ -133,7 +140,7 @@ export default function Jacobi() {
                 </InputWrapper>
                 <InputWrapper
                     label={<Title order={4}>n:</Title>}
-                    description={<Text>n must an odd integer</Text>}
+                    description={<Text>n must be odd</Text>}
                 >
                     <Input type="number" required placeholder='b' onChange={(e) => setN(e.target.value)} />
                 </InputWrapper>
@@ -146,7 +153,7 @@ export default function Jacobi() {
             {showResult &&
                 <>
                 <Title order={3}>Result:</Title>
-                <SimpleGrid cols={5}>
+                <SimpleGrid cols={3}>
                     <Box
                     sx={(theme) => ({
                         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
@@ -168,6 +175,7 @@ export default function Jacobi() {
                 </SimpleGrid>
                 </>
             }
+            </Container>
             </AppShell>
         </Container>
     );

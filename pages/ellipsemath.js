@@ -3,6 +3,7 @@ import { AppShell, Anchor, Switch, Card, Space, Container, Header, Input, InputW
 import BurgerBar from '../components/drawerTemplate';
 import { AiTwotoneHome } from 'react-icons/ai';
 import { FaPlus, FaAsterisk } from 'react-icons/fa';
+import HeaderTemplate from '../components/headerTemplate';
 
 const addCode = `def elliptic_add(P, Q, a, b, p):
 x1, y1 = P
@@ -106,12 +107,17 @@ export default function EllipseMath() {
         setLoader(true);
         setShowResult(false);
         const url = `https://crypto-helper-mocha.vercel.app/ellipticadd?x1=${x1}&y1=${y1}&x2=${x2}&y2=${y2}&a=${a}&b=${b}&p=${p}`;
-        const response = await fetch(url);
-        const res = await response.json();
-        setLoader(false);
-        console.log(JSON.parse(res));
-        setResult(JSON.parse(res));
-        setShowResult(true);
+        
+        try {        
+            const response = await fetch(url);
+            const res = await response.json();
+            setLoader(false);
+            setResult(JSON.parse(res));
+            setShowResult(true);
+        } catch (err) {
+            setLoader(false);
+            alert("Something went wrong. Please check your inputs and try again!");
+        }
     }
 
     const onHandleMul = async() => {
@@ -134,213 +140,202 @@ export default function EllipseMath() {
         setLoader(true);
         setShowResult(false);
         const url = `https://crypto-helper-mocha.vercel.app/ellipticmultiply?n=${n}&x=${x1}&y=${y1}&a=${a}&b=${b}&p=${p}`;
-        const response = await fetch(url);
-        const res = await response.json();
-        setLoader(false);
-        console.log(JSON.parse(res));
-        setResult(JSON.parse(res));
-        setShowResult(true);
+        try {        
+            const response = await fetch(url);
+            const res = await response.json();
+            setLoader(false);
+            setResult(JSON.parse(res));
+            setShowResult(true);
+        } catch (err) {
+            setLoader(false);
+            alert("Something went wrong. Please check your inputs and try again!");
+        }
     }
 
     return (
-        <Container>
+        <Container style={{maxWidth: "100vw"}}>
             <AppShell
                 padding="xl"
-                header={<Header>
-                            <Grid cols={12}>
-                                <Grid.Col span={10}>
-                                    <Title>Ellipse Math: {funcAdd? "Addition": "Multiplication"}</Title>
-                                </Grid.Col>
-                                <Grid.Col span={1}  style={{display: "flex", alignItems: "center", justifyContent: "right"}}>
-                                    <Anchor href="/" style={{color: "#c1c2c5", textDecoration: "none"}}><div style={{display: "flex", alignItems: "center"}}><AiTwotoneHome size="20px"/>&nbsp;<Text weight={650}>HOME</Text></div></Anchor>
-                                </Grid.Col>
-                                <Grid.Col span={1}  style={{display: "flex", alignItems: "center", justifyContent: "right"}}>
-                                    <BurgerBar title={"Ellipse Math"}>
-                                        <Code block>{funcAdd? addCode: mulCode}</Code>
-                                    </BurgerBar>
-                                </Grid.Col>
-                            </Grid>
-                            {funcAdd &&
-                            <Text size="xl" weight={600}>Addition of two points that exist on the same elliptic curve</Text>}
-                            {!funcAdd &&
-                            <Text size="xl" weight={600}>Multiplication of a point by a scalar</Text>}
-                        </Header>}
+                header={<HeaderTemplate
+                            title={<Title>Ellipse Math: {funcAdd? "Addition": "Multiplication"}</Title>}
+                            code={funcAdd? addCode: mulCode}
+                            codeTitle={funcAdd? "Ellipse Addition": "Ellipse Multiplication"}
+                            description={funcAdd? "Addition of two points that exist on the same elliptic curve": "Multiplication of a point by a scalar"}
+                        />}
             >
                 <Container alignItems="center">
-                <Tabs active={funcAdd} onTabChange={onChangeTab}>
-                    <Tabs.Tab label={<FaPlus/>} tabKey={true}>
-                        <Title order={3}>Ellipse Addition:</Title>
-                        <Text size="lg" weight={600}>Enter P and Q:</Text>
-                        <SimpleGrid cols={2}>
-                            <InputWrapper
-                                label="P"
-                                description="Enter x and y coordinates of P (x1, y1)"
-                                required
-                            >
-                                <Input label="x1" placeholder="x1" onChange={(e) => setX1(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="&nbsp;"
-                                description="&nbsp;"
-                            >
-                                <Input label="y1" placeholder="y1" onChange={(e) => setY1(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="Q"
-                                description="Enter x and y coordinates of Q (x2, y2)"
-                                required
-                            >
-                                <Input label="x2" placeholder="x2" onChange={(e) => setX2(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="&nbsp;"
-                                description="&nbsp;"
-                            >
-                                <Input label="y2" placeholder="y2" onChange={(e) => setY2(e.target.value)}/>
-                            </InputWrapper>
-                        </SimpleGrid>
-                        <Space h="xl"/>
-                        <Text size="lg" weight={600}>Enter a, b and p (Non singular Elliptic Curve Parameters):</Text>
-                        <SimpleGrid cols={3}>
-                            <InputWrapper
-                                label="a"
-                                description="4a^3 + 27b^2!=0"
-                                required
-                            >
-                                <Input label="a" placeholder="a" onChange={(e) => setA(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="b"
-                                description="4a^3 + 27b^2!=0"
-                                required
-                            >
-                                <Input label="b" placeholder="b" onChange={(e) => setB(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="p"
-                                description="p is an odd prime number"
-                                required
-                            >
-                                <Input label="p" placeholder="p" onChange={(e) => setP(e.target.value)}/>
-                            </InputWrapper>
-                        </SimpleGrid>
-                        <Space h="xl"/>
-                        <Button onClick={onHandleAdd}>Add</Button>
-                        <Space h="md"/>
-                        
-                        {loader && <Loader size="xl" variant='dots'/>}
-                        {showResult &&
-                            <>
-                            <Title order={3}>Result:</Title>
-                            <SimpleGrid cols={5}>
-                                <Box
-                                sx={(theme) => ({
-                                    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-                                    textAlign: 'left',
-                                    padding: theme.spacing.xl,
-                                    borderRadius: theme.radius.md,
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                
-                                    '&:hover': {
-                                    backgroundColor:
-                                        theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
-                                    },
-                                })}
+                    <Tabs active={funcAdd} onTabChange={onChangeTab}>
+                        <Tabs.Tab label={<FaPlus/>} tabKey={true}>
+                            <Title order={3}>Ellipse Addition:</Title>
+                            <Text size="lg" weight={600}>Enter P and Q:</Text>
+                            <SimpleGrid cols={2}>
+                                <InputWrapper
+                                    label="P"
+                                    description="Enter x, y coordinates of P"
+                                    required
                                 >
-                                    <Text size="lg" weight={600}>{result[0]}, {result[1]}</Text>
-                                </Box>
-                            </SimpleGrid>
-                            </>
-                        }
-                    </Tabs.Tab>
-                    <Tabs.Tab label={<FaAsterisk/>} tabKey={false}>
-                    <Title order={3}>Ellipse Multiplication:</Title>
-                        <Text size="lg" weight={600}>Enter point P and scalar n:</Text>
-                        <SimpleGrid cols={2}>
-                            <InputWrapper
-                                label="P"
-                                description="Enter x and y coordinates of P (x1, y1)"
-                                required
-                            >
-                                <Input label="x1" placeholder="x1" onChange={(e) => setX1(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="&nbsp;"
-                                description="&nbsp;"
-                            >
-                                <Input label="y1" placeholder="y1" onChange={(e) => setY1(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="n"
-                                description="Enter scalar n to multiply P by"
-                                required
-                            >
-                                <Input label="n" placeholder="n" onChange={(e) => setN(e.target.value)}/>
-                            </InputWrapper>
-                        </SimpleGrid>
-                        <Space h="xl"/>
-                        <Text size="lg" weight={600}>Enter a, b and p (Non singular Elliptic Curve Parameters):</Text>
-                        <SimpleGrid cols={3}>
-                            <InputWrapper
-                                label="a"
-                                description="4a^3 + 27b^2!=0"
-                                required
-                            >
-                                <Input label="a" placeholder="a" onChange={(e) => setA(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="b"
-                                description="4a^3 + 27b^2!=0"
-                                required
-                            >
-                                <Input label="b" placeholder="b" onChange={(e) => setB(e.target.value)}/>
-                            </InputWrapper>
-                            <InputWrapper
-                                label="p"
-                                description="p is an odd prime number"
-                                required
-                            >
-                                <Input label="p" placeholder="p" onChange={(e) => setP(e.target.value)}/>
-                            </InputWrapper>
-                        </SimpleGrid>
-                        <Space h="xl"/>
-                        <Button onClick={onHandleMul}>Multiply</Button>
-                        <Space h="md"/>
-                        
-                        {loader && <Loader size="xl" variant='dots'/>}
-                        {showResult &&
-                            <>
-                            <Title order={3}>Result:</Title>
-                            <SimpleGrid cols={5}>
-                                <Box
-                                sx={(theme) => ({
-                                    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-                                    textAlign: 'left',
-                                    padding: theme.spacing.xl,
-                                    borderRadius: theme.radius.md,
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                
-                                    '&:hover': {
-                                    backgroundColor:
-                                        theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
-                                    },
-                                })}
+                                    <Input label="x1" placeholder="x1" onChange={(e) => setX1(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="&nbsp;"
+                                    description="&nbsp;"
                                 >
-                                    <Text size="lg" weight={600}>{result[0]}, {result[1]}</Text>
-                                </Box>
+                                    <Input label="y1" placeholder="y1" onChange={(e) => setY1(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="Q"
+                                    description="Enter x, y coordinates of Q"
+                                    required
+                                >
+                                    <Input label="x2" placeholder="x2" onChange={(e) => setX2(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="&nbsp;"
+                                    description="&nbsp;"
+                                >
+                                    <Input label="y2" placeholder="y2" onChange={(e) => setY2(e.target.value)}/>
+                                </InputWrapper>
                             </SimpleGrid>
-                            </>
-                        }
+                            <Space h="xl"/>
+                            <Text size="lg" weight={600}>Enter a, b and p (Non singular Elliptic Curve Parameters):</Text>
+                            <SimpleGrid cols={3}>
+                                <InputWrapper
+                                    label="a"
+                                    description="4a^3 + 27b^2!=0"
+                                    required
+                                >
+                                    <Input label="a" placeholder="a" onChange={(e) => setA(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="b"
+                                    description="4a^3 + 27b^2!=0"
+                                    required
+                                >
+                                    <Input label="b" placeholder="b" onChange={(e) => setB(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="p"
+                                    description="p is an odd prime"
+                                    required
+                                >
+                                    <Input label="p" placeholder="p" onChange={(e) => setP(e.target.value)}/>
+                                </InputWrapper>
+                            </SimpleGrid>
+                            <Space h="xl"/>
+                            <Button onClick={onHandleAdd}>Add</Button>
+                            <Space h="md"/>
+                            
+                            {loader && <Loader size="xl" variant='dots'/>}
+                            {showResult && funcAdd &&
+                                <>
+                                <Title order={3}>Result:</Title>
+                                <SimpleGrid cols={5}>
+                                    <Box
+                                    sx={(theme) => ({
+                                        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                                        textAlign: 'left',
+                                        padding: theme.spacing.xl,
+                                        borderRadius: theme.radius.md,
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                    
+                                        '&:hover': {
+                                        backgroundColor:
+                                            theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+                                        },
+                                    })}
+                                    >
+                                        <Text size="lg" weight={600}>{result[0]}, {result[1]}</Text>
+                                    </Box>
+                                </SimpleGrid>
+                                </>
+                            }
+                        </Tabs.Tab>
+                        <Tabs.Tab label={<FaAsterisk/>} tabKey={false}>
+                        <Title order={3}>Ellipse Multiplication:</Title>
+                            <Text size="lg" weight={600}>Enter point P and scalar n:</Text>
+                            <SimpleGrid cols={2}>
+                                <InputWrapper
+                                    label="P"
+                                    description="Enter x, y coordinates of P"
+                                    required
+                                >
+                                    <Input label="x1" placeholder="x1" onChange={(e) => setX1(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="&nbsp;"
+                                    description="&nbsp;"
+                                >
+                                    <Input label="y1" placeholder="y1" onChange={(e) => setY1(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="n"
+                                    description="Enter scalar n to multiply P by"
+                                    required
+                                >
+                                    <Input label="n" placeholder="n" onChange={(e) => setN(e.target.value)}/>
+                                </InputWrapper>
+                            </SimpleGrid>
+                            <Space h="xl"/>
+                            <Text size="lg" weight={600}>Enter a, b and p (Non singular Elliptic Curve Parameters):</Text>
+                            <SimpleGrid cols={3}>
+                                <InputWrapper
+                                    label="a"
+                                    description="4a^3 + 27b^2!=0"
+                                    required
+                                >
+                                    <Input label="a" placeholder="a" onChange={(e) => setA(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="b"
+                                    description="4a^3 + 27b^2!=0"
+                                    required
+                                >
+                                    <Input label="b" placeholder="b" onChange={(e) => setB(e.target.value)}/>
+                                </InputWrapper>
+                                <InputWrapper
+                                    label="p"
+                                    description="p is an odd prime"
+                                    required
+                                >
+                                    <Input label="p" placeholder="p" onChange={(e) => setP(e.target.value)}/>
+                                </InputWrapper>
+                            </SimpleGrid>
+                            <Space h="xl"/>
+                            <Button onClick={onHandleMul}>Multiply</Button>
+                            <Space h="md"/>
+                            
+                            {loader && <Loader size="xl" variant='dots'/>}
+                            {showResult && !funcAdd &&
+                                <>
+                                <Title order={3}>Result:</Title>
+                                <SimpleGrid cols={3}>
+                                    <Box
+                                    sx={(theme) => ({
+                                        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                                        textAlign: 'left',
+                                        padding: theme.spacing.xl,
+                                        borderRadius: theme.radius.md,
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                    
+                                        '&:hover': {
+                                        backgroundColor:
+                                            theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+                                        },
+                                    })}
+                                    >
+                                        <Text size="lg" weight={600}>{result[0]}, {result[1]}</Text>
+                                    </Box>
+                                </SimpleGrid>
+                                </>
+                            }
 
-                    </Tabs.Tab>
-                </Tabs>
+                        </Tabs.Tab>
+                    </Tabs>
                 </Container>
-
-
             </AppShell>
         </Container>
     );

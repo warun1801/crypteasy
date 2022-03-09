@@ -1,4 +1,4 @@
-import { Accordion, Button, List, Center, Container, Title, Header, Text, Navbar, AppShell, Grid, Group, Anchor, Image, Space, Card, Pagination, Paper, Dialog, TextInput, Textarea, Notification, Alert, SimpleGrid } from '@mantine/core'
+import { Accordion, Button, List, Center, Container, Title, Header, Text, Navbar, AppShell, Grid, Group, Anchor, Image, Space, Card, Pagination, Paper, Dialog, TextInput, Textarea, Notification, Alert, SimpleGrid, MediaQuery, ScrollArea, Spoiler } from '@mantine/core'
 import BurgerBar from '../components/drawerTemplate'
 import { FcAbout } from 'react-icons/fc';
 import { SiAboutdotme } from 'react-icons/si';
@@ -137,10 +137,14 @@ export default function Home() {
         }
     >
       <Container >
-      <Center>
-        <Title style={{fontSize: "100px"}}>Crypt</Title>
-        <Title order={2} style={{fontSize: "100px", color:"#1c7ed6"}}>Easy</Title>
-      </Center>
+          <Center style={{maxWidth: "100vw"}}>
+            <MediaQuery smallerThan="xs" styles={{fontSize: "80px !important"}}>
+              <Title style={{fontSize: `calc(5vw + 9vh)`}}>Crypt</Title>
+            </MediaQuery>
+            <MediaQuery smallerThan="xs" styles={{fontSize: "80px !important"}}>
+              <Title order={2} style={{fontSize: `calc(5vw + 9vh)`, color:"#1c7ed6"}}>Easy</Title>
+            </MediaQuery>
+          </Center>
       <Center>
         <Text align="center" weight={600} style={{fontSize: "20px"}}>
           For those who want to be free from messy calculations in Cryptography.  
@@ -151,27 +155,45 @@ export default function Home() {
       {activePage == 1 &&
         <Grid cols={12} justify="center" align="stretch">
           <Grid.Col span={4}>
-            <Card padding="xl">          
-                <Title order={4}>Multi Congruence Solver</Title>  
-                <Text>Solving multiple congruence equations using Chinese remainder theorem</Text>
-                <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/crt">
-                  Multi Congruence Solver
-                </Button>
+            <Card padding="sm">
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>     
+                  <Title order={4}>Multi Congruence Solver</Title>  
+                </MediaQuery>
+                  <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide">
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>     
+                    <Text>Solving multiple congruence equations using Chinese remainder theorem</Text>
+                  </MediaQuery>
+                  </Spoiler>
+                  <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/crt">
+                    Multi Congruence Solver
+                  </Button>
             </Card>
           </Grid.Col>
           <Grid.Col span={4}>
-            <Card padding="xl">          
-                <Title order={4}>Ellipse Point Calculator</Title>  
-                <Text>Calculate all the points of a non singular elliptic curve using a,b and p(p == 4k - 1)</Text>
+            <Card padding="sm">    
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>      
+                  <Title order={4}>Ellipse Point Calculator</Title>  
+                </MediaQuery>
+                <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide" >
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>
+                    <Text>Calculate all the points of a non singular elliptic curve using a,b and p(p == 4k - 1)</Text>
+                  </MediaQuery>  
+                </Spoiler>
                 <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/ellipsepts" >
                   Ellipse Point Calculator
                 </Button>
             </Card>
           </Grid.Col>  
           <Grid.Col span={4}>
-            <Card padding="xl">          
-                <Title order={4}>Ellipse Math</Title>  
-                <Text>Elliptic curve points addition. Also elliptic curve point scalar multiplication</Text>
+            <Card padding="sm">
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>          
+                  <Title order={4}>Ellipse Maths (+ | *)</Title>  
+                </MediaQuery>
+                <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide">
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>
+                    <Text>Elliptic curve points addition. Also elliptic curve point scalar multiplication</Text>
+                  </MediaQuery>
+                </Spoiler>
                 <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/ellipsemath" >
                   Ellipse Math
                 </Button>
@@ -182,29 +204,96 @@ export default function Home() {
       {activePage == 2 &&
         <Grid cols={12} justify="center" align="stretch">
           <Grid.Col span={4}>
-            <Card padding="xl">          
-                <Title order={4}>Prime and Next Prime</Title>  
-                <Text>Find if the given number is prime using Miller Rabin test. Also find the next prime after n</Text>
+            <Card padding="sm">
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>          
+                  <Title order={4}>Prime and Next Prime</Title>  
+                </MediaQuery>
+                <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide">
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>
+                    <Text>Find if the given number is prime using Miller Rabin test. Also find the next prime after n</Text>
+                  </MediaQuery>
+                </Spoiler>
                 <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/prime" >
                   Prime and Next Prime
                 </Button>
             </Card>
           </Grid.Col>
           <Grid.Col span={4}>
-            <Card padding="xl">          
-                <Title order={4}>Extended Euclidean</Title>  
-                <Text>Find x, y using Extended Euclidean algorithm using a, b such that ax + by = gcd(a, b)</Text>
+            <Card padding="sm">
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>          
+                  <Title order={4}>Extended Euclidean</Title>  
+                </MediaQuery>
+                <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide">
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>
+                    <Text>Find x, y using Extended Euclidean algorithm using a, b such that ax + by = gcd(a, b)</Text>
+                  </MediaQuery>
+                </Spoiler>
                 <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/extended" >
                   Extended Euclidean
                 </Button>
             </Card>
           </Grid.Col>  
           <Grid.Col span={4}>
-            <Card padding="xl">          
-                <Title order={4}>Jacobi / Legendre Symbol </Title>  
-                <Text>Find Jacobi Symbol for a, n such that n is an odd number. Also find legendre if n is odd prime</Text>
+            <Card padding="sm">
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>
+                  <Title order={4}>Jacobi / Legendre Symbol </Title>  
+                </MediaQuery>
+                <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide">
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>
+                    <Text>Find Jacobi Symbol for a, n such that n is an odd number. Also find legendre if n is odd prime</Text>
+                  </MediaQuery>
+                </Spoiler>
                 <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/jacobi" >
                   Jacobi / Legendre Symbol
+                </Button>
+            </Card>
+          </Grid.Col> 
+        </Grid>
+      }
+      {activePage == 3 &&
+        <Grid cols={12} justify="center" align="stretch">
+          <Grid.Col span={4}>
+            <Card padding="sm">
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>     
+                  <Title order={4}>Primitive Roots</Title>  
+                </MediaQuery>
+                  <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide">
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>     
+                    <Text>Find all the primitive roots of a given number using order of mod. Gives you the number of roots and the values.</Text>
+                  </MediaQuery>
+                  </Spoiler>
+                  <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/primitiveroots">
+                    Primitive Roots
+                  </Button>
+            </Card>
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Card padding="sm">    
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>      
+                  <Title order={4}>RRSM / Euler&apos; Totient</Title>  
+                </MediaQuery>
+                <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide" >
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>
+                    <Text>Finds the reduced residue system modulo n. Also you can find only its size using the Euler&apos; Totient </Text>
+                  </MediaQuery>  
+                </Spoiler>
+                <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/rrsm" >
+                  RRSM / Euler&apos; Totient
+                </Button>
+            </Card>
+          </Grid.Col>  
+          <Grid.Col span={4}>
+            <Card padding="sm">
+                <MediaQuery smallerThan="xs" styles={{fontSize: "15px !important"}}>          
+                  <Title order={4}>Prime Factorization</Title>  
+                </MediaQuery>
+                <Spoiler maxHeight={110} style={{zIndex: 5}} showLabel="Show more" hideLabel="Hide">
+                  <MediaQuery smallerThan="xs" styles={{fontSize: "12px !important"}}>
+                    <Text>Find all the prime factors of a given number. Also find the powers of the respective primes</Text>
+                  </MediaQuery>
+                </Spoiler>
+                <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }} component="a" href="/primefactors" >
+                  Prime Factors
                 </Button>
             </Card>
           </Grid.Col> 
@@ -213,7 +302,7 @@ export default function Home() {
       <Space h="xl" />
       <Space h="md" />
       <Center>
-        <Pagination page={activePage} onChange={setPage} total={2} />
+        <Pagination page={activePage} onChange={setPage} total={3} />
       </Center>
       </Container>
     </AppShell>

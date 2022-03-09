@@ -47,7 +47,6 @@ return i`;
 
 export default function Prime() {
     const [n, setN] = useState(-1);
-    const [func, setFunc] = useState(true);
     const [showResultPrime, setShowResultPrime] = useState(false);
     const [showResultNextPrime, setShowResultNextPrime] = useState(false);
     const [resultPrime, setResultPrime] = useState("");
@@ -71,11 +70,17 @@ export default function Prime() {
         setLoadingPrime(true);
         setShowResultPrime(false);
         const url = `https://crypto-helper-mocha.vercel.app/isprime?n=${n}`;
-        const response = await fetch(url);
-        const data = await response.json();
-        setResultPrime(JSON.stringify(data));
-        setLoadingPrime(false);
-        setShowResultPrime(true);
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            setResultPrime(JSON.stringify(data));
+            setLoadingPrime(false);
+            setShowResultPrime(true);
+        } catch (err) {
+            setLoadingPrime(false);
+            alert("An error occured. Please check the number.");
+        }
     }
 
     const onHandleNextPrime = async() => {
@@ -86,19 +91,26 @@ export default function Prime() {
         setLoadingNextPrime(true);
         setShowResultNextPrime(false);
         const url = `https://crypto-helper-mocha.vercel.app/nextprime?n=${n}`;
-        const response = await fetch(url);
-        const data = await response.json();
-        setResultNextPrime(data);
-        setLoadingNextPrime(false);
-        setShowResultNextPrime(true);
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            setResultNextPrime(data);
+            setLoadingNextPrime(false);
+            setShowResultNextPrime(true);
+        } catch (err) {
+            setLoadingNextPrime(false);
+            alert("An error occured. Please check the number.");
+        }
     }
 
     return (
-        <Container>
+        <Container style={{maxWidth: "100vw"}}>
             <AppShell
                 padding="xl"
-                header={<HeaderTemplate title="Prime and Next Prime" code={code} codeTitle="Miller Rabin Test and NextPrime" description="Tells you if n is prime and gives you the next prime number after n" />}
+                header={<HeaderTemplate title="Prime Check and Next Prime" code={code} codeTitle="Miller Rabin Test and NextPrime" description="Tells you if n is prime and gives you the next prime number after n" />}
             >
+            <Container alignItems="center">
             <Space h="xl"/>
             <Grid columns={3}>
                 <Grid.Col span={1}>
@@ -127,6 +139,7 @@ export default function Prime() {
                     {showResultNextPrime && <Title order={4}>{resultNextPrime}</Title>} 
                 </Grid.Col>
             </Grid>
+            </Container>
             </AppShell>
         </Container>
     );

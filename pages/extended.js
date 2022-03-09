@@ -38,19 +38,26 @@ export default function ExtendedEuclidean() {
         setLoading(true);
         setShowResult(false);
         const url = `https://crypto-helper-mocha.vercel.app/extendedeuclid?a=${a}&b=${b}`;
-        const response = await fetch(url);
-        const data = await response.json();
-        setResult(JSON.parse(data));
-        setLoading(false);
-        setShowResult(true);
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            setResult(JSON.parse(data));
+            setLoading(false);
+            setShowResult(true);
+        } catch (err) {
+            setLoading(false);
+            alert("An error occurred. Please check your inputs and try again.");
+        }  
     }
 
     return (
-        <Container>
+        <Container style={{maxWidth: "100vw"}}>
             <AppShell
                 padding="xl"
                 header={<HeaderTemplate title="Extended Euclidean Algorithm" code={code} codeTitle="Extended Euclidean Algorithm" description="Find x and y for given a and b such that ax + by = GCD(a, b)" />}
             >
+            <Container alignItems="center">
             <SimpleGrid cols={2}>
                 <InputWrapper
                     label={<Title order={4}>a:</Title>}
@@ -95,6 +102,7 @@ export default function ExtendedEuclidean() {
                 </SimpleGrid>
                 </>
             }
+            </Container>
             </AppShell>
         </Container>
     );

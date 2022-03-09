@@ -51,19 +51,26 @@ export default function EllipsePts() {
         setLoader(true);
         setShowResult(false);
         const url = `https://crypto-helper-mocha.vercel.app/getellipticpoints?a=${a}&b=${b}&p=${p}`;
-        const response = await fetch(url);
-        const res = await response.json();
-        setLoader(false);
-        setResult(JSON.parse(res));
-        setShowResult(true);
+        
+        try {
+            const response = await fetch(url);
+            const res = await response.json();
+            setLoader(false);
+            setResult(JSON.parse(res));
+            setShowResult(true);
+        } catch (err) {
+            setLoader(false);
+            alert("An error occurred. Please check your inputs and try again.");
+        }  
     }
 
     return (
-        <Container>
+        <Container style={{maxWidth: "100vw"}}>
             <AppShell
                 padding="xl"
                 header={<HeaderTemplate title="Ellipse Point Calculator" code={code} codeTitle="Ellipse Points" description="Gets you all points on ellipse for p congruent to 3mod4" />}
             >
+                <Container alignItems="center">
                 <SimpleGrid cols={3}>
                 <InputWrapper
                     required
@@ -126,8 +133,8 @@ export default function EllipsePts() {
                 </>
                 }
 
+            </Container>
             </AppShell>
-            
         </Container>
     );
 }

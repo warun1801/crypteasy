@@ -82,27 +82,31 @@ export default function Crt() {
         // console.log(`https://crypto-helper-mocha.vercel.app/crt?congruences=${JSON.stringify(values)}`);
         setLoader(true);
         setShowResult(false);
+        try {
         const ans = await fetch(`https://crypto-helper-mocha.vercel.app/crt?congruences=${JSON.stringify(values)}`);
         const res = await ans.json();
         setLoader(false);
         setResult(JSON.parse(res));
         setShowResult(true);
+        } catch (e) {
+            setLoader(false);
+            alert("An error occured. Please check your inputs and try again");
+        }
     }
     return (
-        <Container>
+        <Container style={{maxWidth: "100vw"}}>
         <AppShell
             padding="xl"
             header={<HeaderTemplate title="Multiple Congruence Solver" code={code} description="Uses Chinese Remainder Theorem" codeTitle="Chinese Remainder Theorem"/>}
         >
-            
-            
-
+            <Container alignItems="center">
             <InputWrapper key={10000}
                 label={<Title order={4}>Num of Equations:</Title>}
             >
                 <Input type="number" value={numEqs} onChange={onNumEqsChange} />
             </InputWrapper>
             <Space h="xl" />
+
             <SimpleGrid cols={3}>
             {inputs.map((i) => 
                 <Card key={i}>
@@ -161,6 +165,7 @@ export default function Crt() {
                     }
                 </Box>
             </>}
+        </Container>
         </AppShell>
         </Container>
     );
