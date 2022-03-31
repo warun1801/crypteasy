@@ -2,6 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+![Alt text](/public/CryptEasy.png?raw=true "CryptEasy Website Landing Page")
 First, run the development server:
 
 ```bash
