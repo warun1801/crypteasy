@@ -39,7 +39,7 @@ export default function Home() {
         header={
         <Group direction='row' align="left" position="apart" style={{maxWidth: "99vw"}}>
           <div style={{display: "flex", alignItems: "center"}}>
-            <BurgerBar size="xl" profile title={<Title style={{fontFamily: "raleway"}}>About Me</Title>}>
+            {/* <BurgerBar size="xl" profile title={<Title style={{fontFamily: "raleway"}}>About Me</Title>}>
               <Grid cols={12} align="center">
                 <Grid.Col span={6}>
                 <Image
@@ -95,7 +95,7 @@ export default function Home() {
                 </Anchor>
               </Group>
             </SimpleGrid>
-            </BurgerBar>
+            </BurgerBar> */}
 
             <FcAbout size="28px"/>
             <SiAboutdotme size="28px"/>
